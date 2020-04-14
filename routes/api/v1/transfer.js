@@ -1,19 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const traController = require('../../../controllers/api/v1/transfer');
 
+router.get("/",traController.getAll);
 
-router.get("/",(req,res)=>{
-    res.json({
-        "status": "succes",
-        "message": "get gelukt"
-    });
-});
-
-router.post("/",(req,res)=>{
-    res.json({
-        "status": "succes",
-        "message": "post gelukt"
-    });
-});
+router.post("/",traController.create);
 
 module.exports= router;
