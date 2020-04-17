@@ -1,35 +1,52 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const transferSchema= new Schema({
-    amount: Number,
-    to:String,
-    from: String,
-    message: String
-});
-const Transfer = mongoose.model('Transfer', transferSchema);
+const Transfer = require('../../../models/transfer');
 
 const getAll = (req,res)=>{
-    Transfer.find({
-        "to":"melanie"
-    }, (err,docs) => {
-        if (!err){
-            res.json({
-                "status": "succes",
-                "data": docs
-            });
-        }
-    })
+    if(req.query.to){
+        Transfer.findOne({ to: req.query.to })
+        .then(TransferFound => {
+            if (!TransferFound) {
+                res.json({
+                    "status": "error",
+                    "message": "Could not find Transfer"
+                });
+            }
+            if (TransferFound) {
+                return res.json(TransferFound);
+            }
+        })
+    }
+    else{
+        Transfer.find({}, (err, doc) => {
+            if (err) {
+                res.json({
+                    "status": "error",
+                    "message": "Could not show transfer"
+                });
+            }
+            if (!err) {
+                res.json(doc);
+            }
+        });
+    }
+    
 
    
 }
 
-const create =(req,res)=>{
+const create =(req,res, next)=>{
     let transfer = new Transfer();
-    transfer.amount= "100";
-    transfer.to= "melanie";
-    transfer.from="me";
-    transfer.message= "donation";
+    transfer.amount= req.body.amount;
+    transfer.to= req.body.to;
+    transfer.from= req.body.from;
+    transfer.message= req.body.message;
     transfer.save( (err,doc) =>{
+        if (err){
+            res.json({
+                "status": "error",
+                "message":"could not send transfer"
+            });
+        }
+
         if(!err){
             res.json({
                 "status": "succes",
@@ -42,5 +59,36 @@ const create =(req,res)=>{
   
 }
 
+const update =(req,res, next)=>{
+let sentTo = req.body.to;
+    let incAmount = req.body.amount;
+Transfer.findOneAndUpdate({
+    to: sentTo
+},{
+    $inc : {
+        amount: incAmount
+    }
+}, (err, doc)=>{
+    if (err){
+        res.json({
+            "status": "error",
+            "message":"could not send transfer"
+        });
+    }
+
+    if(!err){
+        res.json({
+            "status": "succes",
+            "message": {
+                "transfer": doc
+            }
+        });
+    }
+})
+}
+
+
+
 module.exports.getAll=getAll;
 module.exports.create=create; 
+module.exports.update=update; 
