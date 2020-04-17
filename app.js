@@ -11,6 +11,14 @@ let apiTraRouter = require('./routes/api/v1/transfer');
 
 let app = express();
 
+
+//MONGOOSE
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/transfer', {
+  useNewUrlParser: true, useUnifiedTopology: true
+});
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
