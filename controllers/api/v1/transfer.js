@@ -9,15 +9,23 @@ const transferSchema= new Schema({
 const Transfer = mongoose.model('Transfer', transferSchema);
 
 const getAll = (req,res)=>{
-    res.json({
-        "status": "succes",
-        "message": "get gelukt"
-    });
+    Transfer.find({
+        "to":"melanie"
+    }, (err,docs) => {
+        if (!err){
+            res.json({
+                "status": "succes",
+                "data": docs
+            });
+        }
+    })
+
+   
 }
 
 const create =(req,res)=>{
     let transfer = new Transfer();
-    transfer.amount= "50";
+    transfer.amount= "100";
     transfer.to= "melanie";
     transfer.from="me";
     transfer.message= "donation";
