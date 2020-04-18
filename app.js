@@ -8,6 +8,7 @@ let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 
 let apiTraRouter = require('./routes/api/v1/transfer');
+let passport = require('./passport/passport');
 
 let app = express();
 
@@ -33,7 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors())
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/api/v1/transfer', apiTraRouter);
+app.use('/api/v1/transfer', passport.authenticate('jwt', { session: false }), apiTraRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
