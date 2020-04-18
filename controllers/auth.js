@@ -1,4 +1,3 @@
-
 const User = require('../models/User');
 
 const signup = async (req, res, next) => {
@@ -22,4 +21,21 @@ const signup = async (req, res, next) => {
     });
 };
 
+const login = async (req, res, next) => {
+    const user = await User.authenticate()(req.body.username, req.body.password).then(result => {
+        res.json({
+            "status": "success",
+            "data": {
+                "user": result
+            }
+        });
+    }).catch(error => {
+        res.json({
+            "status": "error",
+            "message": error
+        })
+    });
+};
+
+module.exports.login= login;
 module.exports.signup = signup;
