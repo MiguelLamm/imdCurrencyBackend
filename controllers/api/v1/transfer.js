@@ -11,12 +11,13 @@ const getAll = (req,res)=>{
                 });
             }
             if (TransferFound) {
+                let sum = 0;
                 TransferFound.forEach(function(transfer){
-                    console.log(transfer.amount);
+                    sum += transfer.amount;
+                    
                 })
                 res.json(TransferFound);
-                /*let docs2 = (TransferFound);
-                console.log(docs2);*/
+                console.log(sum);
             }
         })
     }
