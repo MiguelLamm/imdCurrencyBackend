@@ -16,7 +16,7 @@ const signup = async (req, res, next) => {
             uid:result._id,
             username: result.username
         }, "secret");
-        
+        console.log("backend tot hiergoed");
         res.json({
             "status": "success",
             "data":{

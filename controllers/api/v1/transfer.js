@@ -1,8 +1,8 @@
 const Transfer = require('../../../models/transfer');
 
 const getAll = (req,res)=>{
-    if(req.query.to){
-        Transfer.findOne({ to: req.query.to })
+    if(req.body.to){
+        Transfer.find({ to: req.body.to})
         .then(TransferFound => {
             if (!TransferFound) {
                 res.json({
@@ -11,7 +11,12 @@ const getAll = (req,res)=>{
                 });
             }
             if (TransferFound) {
-                return res.json(TransferFound);
+                TransferFound.forEach(function(transfer){
+                    console.log(transfer.amount);
+                })
+                res.json(TransferFound);
+                /*let docs2 = (TransferFound);
+                console.log(docs2);*/
             }
         })
     }
@@ -25,6 +30,8 @@ const getAll = (req,res)=>{
             }
             if (!err) {
                 res.json(doc);
+                let docs = [doc];
+                console.log(docs);
             }
         });
     }
@@ -34,6 +41,7 @@ const getAll = (req,res)=>{
 }
 
 const create =(req,res, next)=>{
+    console.log('Checkpoint router create');
     let transfer = new Transfer();
     transfer.amount= req.body.amount;
     transfer.to= req.body.to;
