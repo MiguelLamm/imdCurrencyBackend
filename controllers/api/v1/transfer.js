@@ -16,7 +16,11 @@ const getAll = (req,res)=>{
                     sum += transfer.amount;
                     
                 })
-                res.json(TransferFound);
+                res.json({
+                    "total": sum,
+                    "data": TransferFound
+                });
+                
                 console.log(sum);
             }
         })
