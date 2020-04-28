@@ -10,12 +10,12 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // WEBTOKEN STRATEGY (JWT)
-/*
+
 var JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
 var opts = {}
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = 'MyVerySecretWord';
+opts.secretOrKey = 'secret';
 
 passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
     User.findOne({
@@ -32,5 +32,5 @@ passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
         }
     });
 }));
-*/
+
 module.exports = passport;
