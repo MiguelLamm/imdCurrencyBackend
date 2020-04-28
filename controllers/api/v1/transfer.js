@@ -33,11 +33,11 @@ const getAll = (req,res)=>{
                     "message": "Could not show transfer"
                 });
             }
-            if (!err) {
+            /*if (!err) {
                 res.json(doc);
                 let docs = [doc];
                 console.log(docs);
-            }
+            }*/
         });
     }
     
