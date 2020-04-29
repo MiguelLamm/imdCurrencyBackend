@@ -7,6 +7,4 @@ router.get("/",traController.getAll);
 //post first transfer
 router.post("/",traController.create);
 
-router.put("/",traController.update);
-
 module.exports= router;

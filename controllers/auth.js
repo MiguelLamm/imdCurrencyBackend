@@ -4,11 +4,12 @@ const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, next) => {
     console.log(req.body);
-   // let nickname = req.body.username;
+    let nickname= req.body.username;
     let username = req.body.email; // UI of postman
     let password = req.body.password;
 
-    const user = new User({username: username});
+    const user = new User({username: username, nickname:nickname});
+    
     await user.setPassword(password);
     await user.save().then(result => {
         

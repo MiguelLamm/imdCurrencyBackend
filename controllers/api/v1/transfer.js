@@ -1,10 +1,8 @@
 const Transfer = require('../../../models/transfer');
 
 const getAll = (req,res)=>{
-    if(req.user.username){
-
-
-        Transfer.find({$or:[ {to:req.user.username}, {from:req.user.username} ]})
+    if(req.user.nickname){
+        Transfer.find({$or:[ {to:req.user.nickname}, {from:req.user.nickname} ]})
         .then(TransferFound => {
             if (!TransferFound) {
                 res.json({
@@ -23,8 +21,6 @@ const getAll = (req,res)=>{
                     "total": sum,
                     "data": {"transfers":TransferFound}
                 });
-                console.log();
-                
             }
         })
     }
@@ -61,7 +57,7 @@ const create =(req,res, next)=>{
     transfer.amount= req.body.amount;
     transfer.to= req.body.to;
     console.log(req.user);
-    transfer.from= req.user.username;
+    transfer.from= req.user.nickname;
     transfer.message= req.body.message;
     transfer.save( (err,doc) =>{
         if (err){
@@ -83,36 +79,8 @@ const create =(req,res, next)=>{
   
 }
 
-const update =(req,res, next)=>{
-let sentTo = req.body.to;
-    let incAmount = req.body.amount;
-Transfer.findOneAndUpdate({
-    to: sentTo
-},{
-    $inc : {
-        amount: incAmount
-    }
-}, (err, doc)=>{
-    if (err){
-        res.json({
-            "status": "error",
-            "message":"could not send transfer"
-        });
-    }
-
-    if(!err){
-        res.json({
-            "status": "succes",
-            "message": {
-                "transfer": doc
-            }
-        });
-    }
-})
-}
 
 
 
 module.exports.getAll=getAll;
 module.exports.create=create; 
-module.exports.update=update; 
