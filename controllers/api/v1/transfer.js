@@ -1,8 +1,8 @@
 const Transfer = require('../../../models/transfer');
 
 const getAll = (req,res)=>{
-    if(req.body.to){
-        Transfer.find({ to: req.body.to})
+    if(req.user.username){
+        Transfer.find({ to: req.user.username})
         .then(TransferFound => {
             if (!TransferFound) {
                 res.json({
@@ -14,30 +14,37 @@ const getAll = (req,res)=>{
                 let sum = 0;
                 TransferFound.forEach(function(transfer){
                     sum += transfer.amount;
-                    
+                    console.log(sum);
                 })
                 res.json({
+                    "status":"success",
                     "total": sum,
-                    "data": TransferFound
+                    "data": {"transfers":TransferFound}
                 });
                 
-                console.log(sum);
             }
         })
     }
     else{
-        Transfer.find({}, (err, doc) => {
+        Transfer.find({}, (err, TransferFound) => {
             if (err) {
                 res.json({
                     "status": "error",
                     "message": "Could not show transfer"
                 });
             }
-            /*if (!err) {
-                res.json(doc);
-                let docs = [doc];
-                console.log(docs);
-            }*/
+            if (!err) {
+                let sum = 0;
+                TransferFound.forEach(function(transfer){
+                    sum += transfer.amount;
+                    console.log(sum);
+                })
+                res.json({
+                    "status":"success",
+                    "total": sum,
+                    "data": {"transfers":TransferFound}
+                });
+            }
         });
     }
     
@@ -50,7 +57,8 @@ const create =(req,res, next)=>{
     let transfer = new Transfer();
     transfer.amount= req.body.amount;
     transfer.to= req.body.to;
-    transfer.from= req.body.from;
+    console.log(req.user);
+    transfer.from= req.user.username;
     transfer.message= req.body.message;
     transfer.save( (err,doc) =>{
         if (err){
