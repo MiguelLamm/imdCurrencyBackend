@@ -4,8 +4,8 @@ const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, next) => {
     console.log(req.body);
-
-    let username = req.body.username; // UI of postman
+   // let nickname = req.body.username;
+    let username = req.body.email; // UI of postman
     let password = req.body.password;
 
     const user = new User({username: username});
@@ -31,7 +31,7 @@ const signup = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-    const user = await User.authenticate()(req.body.username, req.body.password)
+    const user = await User.authenticate()(req.body.email, req.body.password)
     .then(result => {
 
         if(!result.user){

@@ -2,7 +2,9 @@ const Transfer = require('../../../models/transfer');
 
 const getAll = (req,res)=>{
     if(req.user.username){
-        Transfer.find({ to: req.user.username})
+
+
+        Transfer.find({$or:[ {to:req.user.username}, {from:req.user.username} ]})
         .then(TransferFound => {
             if (!TransferFound) {
                 res.json({
@@ -21,6 +23,7 @@ const getAll = (req,res)=>{
                     "total": sum,
                     "data": {"transfers":TransferFound}
                 });
+                console.log();
                 
             }
         })
