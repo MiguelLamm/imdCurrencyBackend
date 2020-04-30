@@ -43,25 +43,9 @@ const getAll = (req,res)=>{
         })
     }
     else{
-        Transfer.find({}, (err, TransferFound) => {
-            if (err) {
-                res.json({
-                    "status": "error",
-                    "message": "Could not show transfer"
-                });
-            }
-            if (!err) {
-                let sum = 0;
-                TransferFound.forEach(function(transfer){
-                    sum += transfer.amount;
-                   
-                })
-                res.json({
-                    "status":"success",
-                    "total": sum,
-                    "data": {"transfers":TransferFound}
-                });
-            }
+        res.json({
+            "status": "error",
+            "message": "Could not show transfer"
         });
     }
     
