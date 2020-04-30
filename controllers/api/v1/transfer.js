@@ -2,6 +2,7 @@ const Transfer = require('../../../models/transfer');
 
 const getAll = (req,res)=>{
     if(req.user.nickname){
+        let requester = req.user.nickname;
         Transfer.find({$or:[ {to:req.user.nickname}, {from:req.user.nickname} ]})
         .then(TransferFound => {
             if (!TransferFound) {
@@ -11,14 +12,31 @@ const getAll = (req,res)=>{
                 });
             }
             if (TransferFound) {
-                let sum = 0;
+                let sum1 = 0;
+                let sum2 = 0;
+                let sumtotal = 0;
+               
                 TransferFound.forEach(function(transfer){
-                    sum += transfer.amount;
-                    console.log(sum);
+                    //Alle inkomens
+                    if(transfer.to == req.user.nickname){
+                        
+                        sum1+= transfer.amount;
+                        
+                    }
+                    //Alle uitgaven
+                    else if(transfer.from == req.user.nickname){
+                        
+                        sum2+= transfer.amount;
+                       
+                    }
+                    
                 })
+                sumtotal = req.user.totalAmount + sum1 - sum2;
+                    
                 res.json({
                     "status":"success",
-                    "total": sum,
+                    "requester":requester,
+                    "total": sumtotal,
                     "data": {"transfers":TransferFound}
                 });
             }
@@ -36,7 +54,7 @@ const getAll = (req,res)=>{
                 let sum = 0;
                 TransferFound.forEach(function(transfer){
                     sum += transfer.amount;
-                    console.log(sum);
+                   
                 })
                 res.json({
                     "status":"success",
@@ -52,11 +70,11 @@ const getAll = (req,res)=>{
 }
 
 const create =(req,res, next)=>{
-    console.log('Checkpoint router create');
+   
     let transfer = new Transfer();
     transfer.amount= req.body.amount;
     transfer.to= req.body.to;
-    console.log(req.user);
+    
     transfer.from= req.user.nickname;
     transfer.message= req.body.message;
     transfer.save( (err,doc) =>{
@@ -69,7 +87,7 @@ const create =(req,res, next)=>{
 
         if(!err){
             res.json({
-                "status": "succes",
+                "status": "success",
                 "message": {
                     "transfer": doc
                 }
