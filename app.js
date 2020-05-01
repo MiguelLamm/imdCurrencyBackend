@@ -34,7 +34,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use('/', indexRouter);
 app.use('/users',usersRouter);
-app.use('/leaderboard',LeadRouter);
+app.use('/leaderboard',
+passport.authenticate('jwt', { session: false }),
+LeadRouter);
 app.use('/api/v1/transfer',
  passport.authenticate('jwt', { session: false }),
   apiTraRouter);

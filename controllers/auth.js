@@ -8,7 +8,7 @@ const signup = async (req, res, next) => {
     let username = req.body.email; // UI of postman
     let password = req.body.password;
 
-    const user = new User({username: username, nickname:nickname, totalAmount: "100"});
+    const user = new User({username: username, nickname:nickname, startAmount: "100"});
     
     await user.setPassword(password);
     await user.save().then(result => {

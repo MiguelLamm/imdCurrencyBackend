@@ -1,5 +1,5 @@
 const Transfer = require('../../../models/transfer');
-const Leader = require('../../../models/leaderbord');
+
 
 const getAll = (req,res)=>{
     if(req.user.nickname){
@@ -33,7 +33,6 @@ const getAll = (req,res)=>{
                     
                 })
                 sumtotal = req.user.startAmount + sum1 - sum2;
-                req.user.totalAmount = sumtotal;
 
                 res.json({
                     "status":"success",

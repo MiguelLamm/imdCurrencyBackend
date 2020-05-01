@@ -1,30 +1,12 @@
 const Leader = require('../../../models/leaderbord');
-const Transfer = require('../../../models/transfer');
 
 const ranks = (req,res)=>{
-    Transfer.find({})
+    Leader.find({}).sort({totalAmount:'desc'})
     .then(found => {
         if(found){
             res.json({
                 "status": "success",
-                "message": "aubrankings"
-            })
-        }
-        if(!found){
-            res.json({
-                "status": "error",
-                "message": "ayayay"
-            })
-        }
-    })
-}
-const updateRanks = (req,res)=>{
-    Transfer.find({})
-    .then(found => {
-        if(found){
-            res.json({
-                "status": "success",
-                "message": "aubrankings"
+                "message": found
             })
         }
         if(!found){
@@ -36,22 +18,54 @@ const updateRanks = (req,res)=>{
     })
 }
 const addrank = (req,res)=>{
-    Transfer.find({})
-    .then(found => {
-        if(found){
-            res.json({
-                "status": "success",
-                "message": "aubrankings"
-            })
-        }
-        if(!found){
+    let rank = new Leader();
+    rank.totalAmount= req.body.amount;
+    rank.nickname= req.body.nickname;
+    rank.save( (err,doc) =>{
+        if (err){
             res.json({
                 "status": "error",
-                "message": "ayayay"
-            })
+                "message":"could not send transfer"
+            });
         }
+
+        if(!err){
+            res.json({
+                "status": "success",
+                "message": {
+                    "rankuser": doc
+                }
+            });
+        }
+    } )
+}
+const updateRanks = (req,res)=>{
+    if(req.user.username){
+
+    
+    let nickname = req.user.nickname;
+    let updateAmount = req.body.totalAmount;
+    console.log(nickname);
+    Leader.findOneAndUpdate({
+        nickname: nickname
+    },{
+        totalAmount: updateAmount
+    }).then(doc => {
+        res.json({
+            "status": "success",
+           "data": doc
+        })
+    }).catch(err => {
+        res.json(err);
+    })
+}else{
+    res.json({
+        "status": "error",
+        "message":"geen nickname gevonden"
     })
 }
+}
+
+module.exports.ranks=ranks;
 module.exports.addrank=addrank;
 module.exports.updateRanks=updateRanks;
-module.exports.ranks=ranks;
