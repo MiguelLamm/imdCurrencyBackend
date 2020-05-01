@@ -31,8 +31,9 @@ const getAll = (req,res)=>{
                     }
                     
                 })
-                sumtotal = req.user.totalAmount + sum1 - sum2;
-                    
+                sumtotal = req.user.startAmount + sum1 - sum2;
+                req.user.totalAmount = sumtotal;
+                console.log(req.user.totalAmount);
                 res.json({
                     "status":"success",
                     "requester":requester,
