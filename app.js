@@ -6,7 +6,7 @@ let logger = require('morgan');
 let cors = require('cors');
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
-
+let LeadRouter = require('./routes/leader');
 let apiTraRouter = require('./routes/api/v1/transfer');
 let passport = require('./passport/passport');
 
@@ -34,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use('/', indexRouter);
 app.use('/users',usersRouter);
+app.use('/leaderboard',LeadRouter);
 app.use('/api/v1/transfer',
  passport.authenticate('jwt', { session: false }),
   apiTraRouter);
