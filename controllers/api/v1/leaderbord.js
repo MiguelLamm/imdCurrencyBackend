@@ -6,7 +6,7 @@ const ranks = (req,res)=>{
         if(found){
             res.json({
                 "status": "success",
-                "message": found
+                "data": found
             })
         }
         if(!found){
@@ -32,7 +32,7 @@ const addrank = (req,res)=>{
         if(!err){
             res.json({
                 "status": "success",
-                "message": {
+                "data": {
                     "rankuser": doc
                 }
             });
