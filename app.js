@@ -38,7 +38,7 @@ app.use('/leaderboard',
 passport.authenticate('jwt', { session: false }),
 LeadRouter);
 app.use('/api/v1/transfer',
- //passport.authenticate('jwt', { session: false }),
+ passport.authenticate('jwt', { session: false }),
   apiTraRouter);
 
 // catch 404 and forward to error handler

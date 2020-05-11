@@ -50,16 +50,27 @@ const getAll = (req,res)=>{
         });
     }
 }
-const getId = (req,res) => {
+/*const getId = (req,res) => {
     let tId = req.params.id;
    console.log(tId);
-   res.json({
-    "status": "success",
-    "message": tId
-});
-        
+   Transfer.find({_id:tId})
+   .then(TransferFound => {
+    if (!TransferFound) {
+        res.json({
+            "status": "error",
+            "message": "Could not find Transfer"
+        });
+    }
+    else if (TransferFound){
+        res.json({
+            "status": "success",
+            "data": tId
+        });
+    }
+}
+   ) 
 };
-
+*/
 const create =(req,res, next)=>{
    
     let transfer = new Transfer();
@@ -90,6 +101,6 @@ const create =(req,res, next)=>{
 
 
 
-module.exports.getId=getId;
+//module.exports.getId=getId;
 module.exports.getAll=getAll;
 module.exports.create=create; 
