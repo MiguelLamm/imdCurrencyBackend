@@ -49,10 +49,16 @@ const getAll = (req,res)=>{
             "message": "Could not show transfer"
         });
     }
-    
-
-   
 }
+const getId = (req,res) => {
+    let tId = req.params.id;
+   console.log(tId);
+   res.json({
+    "status": "success",
+    "message": tId
+});
+        
+};
 
 const create =(req,res, next)=>{
    
@@ -84,6 +90,6 @@ const create =(req,res, next)=>{
 
 
 
-
+module.exports.getId=getId;
 module.exports.getAll=getAll;
 module.exports.create=create; 
