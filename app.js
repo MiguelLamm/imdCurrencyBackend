@@ -10,13 +10,15 @@ let LeadRouter = require('./routes/leader');
 let apiTraRouter = require('./routes/api/v1/transfer');
 let passport = require('./passport/passport');
 
+let config = require('config');
+
 let app = express();
 
 
 //MONGOOSE
 const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost:27017/transfer', {
+mongoose.connect(config.get('Database.conn'), {
   useNewUrlParser: true, useUnifiedTopology: true
 });
 
