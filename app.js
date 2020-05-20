@@ -14,7 +14,7 @@ let config = require('config');
 
 let app = express();
 
-//commentaar
+//commentaar test
 //MONGOOSE
 const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
